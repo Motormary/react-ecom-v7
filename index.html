@@ -14,7 +14,7 @@
   <script type="module" src="/src/main.tsx"></script>
   <script>
     {/* Avoid flickering on load */ }
-    const theme = localStorage.getItem('theme') || 'light'
+    const theme = localStorage.getItem('__ECOM_THEME') || 'dark'
     document.documentElement.dataset.theme = theme;
   </script>
 </body>
