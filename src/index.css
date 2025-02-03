@@ -1,20 +1,20 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @font-face {
-  font-family: 'Geist';
+  font-family: "Geist";
   font-optical-sizing: auto;
   font-weight: 100 900;
   font-style: normal;
-  src: url('./fonts/GeistVF.woff') format('woff');
+  src: url("./fonts/GeistVF.woff") format("woff");
 }
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme {
-  --font-sans: 'Geist', 'Inter', ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans: "Geist", "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
-    /* ----------- Colors ------------ */
+  /* ----------- Colors ------------ */
   --color-background: hsl(0 0% 100%);
   --color-foreground: hsl(222.2 84% 4.9%);
   --color-card: hsl(0 0% 100%);
@@ -39,26 +39,35 @@
 
   --height-nav: 4rem;
   --height-footer: 4rem;
-  --min-height-main: calc(100vh - var(--height-nav) - var(--height-footer) - 2px);
-
+  --min-height-main: calc(
+    100vh - var(--height-nav) - var(--height-footer) - 2px
+  );
 
   /* ------------- Animations -------------- */
 
-  --animate-checkout-cta: checkout 1s ease linear;
+  --animate-wiggle: wiggle 1.5s ease infinite;
+}
 
-  @keyframes checkout {
+
+/* ----------- KeyFrames ----------- */
+@theme {
+
+  @keyframes wiggle {
     0% {
-      transform: translateY(0%);
+      transform: translateX(0%);
+    }
+    50% {
+      transform: translateX(0.25rem);
     }
     100% {
-      transform: translateY(20%);
+      transform: translateX(0%);
     }
   }
+
 }
 
 @layer base {
-
-  [data-theme='dark'] {
+  [data-theme="dark"] {
     --color-background: hsl(222.2 84% 4.9%);
     --color-foreground: hsl(210 40% 98%);
     --color-card: hsl(222.2 84% 4.9%);
