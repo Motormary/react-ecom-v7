@@ -37,7 +37,7 @@
 
   /* --------------- Heights -------------- */
 
-  --height-nav: 4rem;
+  --height-nav: 5rem;
   --height-footer: 4rem;
   --min-height-main: calc(
     100vh - var(--height-nav) - var(--height-footer) - 2px
