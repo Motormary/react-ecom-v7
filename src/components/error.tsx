@@ -1,33 +1,31 @@
-import ActionButton from "./ui/action-button"
+import { Button } from './ui/button'
 
 type errorProps = {
   refetch: () => void
-  isFetching: boolean
   error?: {
-    status: number
-    statusText: string | undefined
+    status: string
+    statusCode: number | undefined
   }
 }
 
-export default function ErrorBox({ refetch, isFetching, error }: errorProps) {
+export default function ErrorBox({ refetch, error }: errorProps) {
   return (
     <div className="grid place-items-center gap-4 py-20">
       <div className="flex gap-4 items-center">
-        <p className="text-[clamp(1.25rem,_2.5vw,_var(--text-3xl))] font-semibold">
-          {error?.statusText?.length ? error.statusText : "Error"}
+        <p
+          className={
+            'text-[clamp(1.25rem,_2.5vw,_var(--text-3xl))] font-semibold'
+          }>
+          {error?.statusCode ?? '404'}
         </p>
-        <div className="h-10 border-l" />
-        <p className="text-[clamp(1rem,_2vw,_var(--text-2xl))] font-semibold">
-          {error?.status ?? "404"}
+        <div className={'h-10 border-l'} />
+        <p className={'text-[clamp(1rem,_2vw,_var(--text-2xl))] font-semibold'}>
+          {error?.status?.length ? error.status : 'Error'}
         </p>
       </div>
-      <ActionButton
-        variant="destructive"
-        isPending={isFetching}
-        loadingText="Retrying"
-        onClick={() => refetch()}>
+      <Button variant="destructive" onClick={() => refetch()}>
         Retry
-      </ActionButton>
+      </Button>
     </div>
   )
 }

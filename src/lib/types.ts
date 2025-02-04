@@ -28,7 +28,7 @@ export type TYPE_PRODUCTS = {
     alt: string | undefined
   }
   price: number
-  rating: number | undefined | null
+  rating: number
   reviews: TYPE_PRODUCT_REVIEW[]
   tags: string[]
 }
