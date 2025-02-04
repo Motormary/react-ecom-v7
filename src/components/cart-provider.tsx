@@ -1,23 +1,25 @@
-import { createContext, useContext, useState, ReactNode } from "react"
+import { TYPE_PRODUCTS } from '@/lib/types'
+import { createContext, useContext, useState, ReactNode } from 'react'
 
 type CartContextType = {
-  cart: string[]
-  addItem: (item: string) => void
-  removeItem: (item: string) => void
+  cart: TYPE_PRODUCTS[]
+  addItem: (item: TYPE_PRODUCTS) => void
+  removeItem: (item: TYPE_PRODUCTS) => void
   emptyCart: () => void
-  isItemInCart: (item: string) => boolean
+  isItemInCart: (item: TYPE_PRODUCTS) => boolean
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
+const localCartKey = '__ECOM_CART'
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const localCartKey = "__ECOM_CART"
+  
   const localCart = localStorage.getItem(localCartKey) ?? []
   const parsedLocalCart =
-    typeof localCart === "string" ? JSON.parse(localCart) : []
-  const [cart, setCart] = useState<string[]>(parsedLocalCart)
+    typeof localCart === 'string' ? JSON.parse(localCart) : []
+  const [cart, setCart] = useState<TYPE_PRODUCTS[]>(parsedLocalCart)
 
-  function addItem(item: string) {
+  function addItem(item: TYPE_PRODUCTS) {
     const updatedCart = [...cart, item]
     setCart(updatedCart)
     localStorage.setItem(localCartKey, JSON.stringify(updatedCart))
@@ -28,10 +30,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem(localCartKey)
   }
 
-  function removeItem(item: string) {
-    const updatedCart = cart.filter(
-      (x) => x.toLowerCase() !== item.toLowerCase()
-    )
+  function removeItem(item: TYPE_PRODUCTS) {
+    const updatedCart = cart.filter((x) => x.id !== item.id)
 
     setCart(updatedCart)
     if (!updatedCart?.length) {
@@ -41,8 +41,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  function isItemInCart(item: string) {
-    return cart.some((x) => x.toLowerCase() === item.toLowerCase())
+  function isItemInCart(item: TYPE_PRODUCTS) {
+    return cart.some((x) => x.id === item.id)
   }
 
   return (
@@ -56,7 +56,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 export function useCart() {
   const context = useContext(CartContext)
   if (!context) {
-    throw new Error("useCart must be used within a CartProvider")
+    throw new Error('useCart must be used within a CartProvider')
   }
   return context
 }
