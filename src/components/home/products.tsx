@@ -1,14 +1,14 @@
-import { db } from '@/lib/database'
-import { cn } from '@/lib/utils'
-import { useQuery } from '@tanstack/react-query'
-import { RefreshCw, Star } from 'lucide-react'
-import { Link } from 'react-router'
-import ErrorBox from '../error'
-import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import { db } from "@/lib/database"
+import { cn } from "@/lib/utils"
+import { useQuery } from "@tanstack/react-query"
+import { RefreshCw, Star } from "lucide-react"
+import { Link } from "react-router"
+import ErrorBox from "../error"
+import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card"
 
 export default function ProductsList() {
   const { isPending, data, error, refetch } = useQuery({
-    queryKey: ['products'],
+    queryKey: ["products"],
     queryFn: db.products.getAll,
     retry: false,
   })
@@ -31,26 +31,26 @@ export default function ProductsList() {
 
   return (
     <section>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-8">
         {data?.data.map((item, index) => {
           if (index === 0) console.log(item.rating)
           console.log(item.rating)
           return (
-            <Card key={item.id} className="relative">
+            <Card key={item.id} className="relative overflow-hidden">
               <Link
                 to={`/product/${item.id}`}
                 className="absolute inset-0 z-10"
               />
-              <div className="relative mx-auto overflow-hidden w-64 h-64 py-4 px-2">
+              <div className="relative mx-auto overflow-hidden h-80 border-muted border-8 bg-muted">
                 <img
-                  className="rounded-md object-cover w-full h-full"
+                  className="object-cover w-full h-full rounded-lg"
                   src={item.image.url}
                   alt={item.image.alt}
                 />
                 <div
                   className={cn(
-                    index % 2 === 0 && 'hidden',
-                    'absolute top-4 left-2 bg-green-600 rounded-md p-1 px-2 shadow-sm select-none'
+                    index % 2 === 0 && "hidden",
+                    "absolute top-0 left-0 bg-green-600 rounded-md p-1 px-2 shadow-sm select-none"
                   )}>
                   <p className="text-white font-semibold drop-shadow-sm">
                     SALE
@@ -73,18 +73,20 @@ export default function ProductsList() {
 }
 
 function RatingStars({ rating }: { rating: number }) {
-  function getFill(index: number): string {
-    if (rating === 0) return ''
-    if (rating !== 0 && Math.floor(rating) % rating !== 0)
-      return 'url(#halfGradient)'
-    if (index < rating) return 'var(--color-amber-200)'
-    return ''
+  function getFill(index: number): string | undefined {
+    const indexValue = index + 1
+    if (rating === 0) return "var(--color-background)"
+    if (indexValue <= rating) return "var(--color-amber-200)"
+    if (indexValue === Math.ceil(rating)) return "url(#halfGradient)"
+
+    return "var(--color-background)"
   }
+
   return (
     <div className="flex gap-1 my-2">
       {Array.from({ length: 5 }, (_, i) => (
         <svg
-          key={i}
+          key={i + rating}
           width="20"
           height="20"
           viewBox="0 0 24 24"
@@ -92,12 +94,18 @@ function RatingStars({ rating }: { rating: number }) {
           <defs>
             <linearGradient id="halfGradient">
               <stop offset="50%" stopColor="var(--color-amber-200)" />
-              <stop offset="50%" stopColor="var(--color-transparent)" />
+              <stop offset="50%" stopColor="var(--color-background)" />
             </linearGradient>
           </defs>
-          <Star className={i <= Math.ceil(rating) ? "text-amber-200" : ""} fill={getFill(i)} />
+          <Star
+            className={
+              rating !== 0 && i + 1 <= Math.ceil(rating) ? "text-amber-200" : ""
+            }
+            fill={getFill(i)}
+          />
         </svg>
       ))}
+      {rating}
     </div>
   )
 }

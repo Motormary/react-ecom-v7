@@ -1,13 +1,9 @@
-import ProductsList from './components/home/products'
-import { Input } from './components/ui/input'
+import ProductsList from "./components/home/products"
 
 function Home() {
   return (
     <>
       <h1 className="sr-only">Home</h1>
-      <div className="flex justify-center">
-        <Input type="text" />
-      </div>
       <ProductsList />
     </>
   )
