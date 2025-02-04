@@ -1,7 +1,7 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter, Route, Routes } from "react-router"
-import App from "./App.tsx"
+import Home from "./Home.tsx"
 import "./index.css"
 import RootLayout from "./routes/root-layout.tsx"
 import Product from "./routes/product.tsx"
@@ -16,7 +16,7 @@ createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <Routes>
         <Route element={<RootLayout />}>
-          <Route index element={<App />} />
+          <Route index element={<Home />} />
           <Route path="product/:product_id" element={<Product />} />
           <Route path="cart" element={<Cart />} />
           <Route path="checkout" element={<Checkout />} />
