@@ -1,10 +1,10 @@
-import { CartProvider } from "@/components/cart-provider"
-import ShoppingCartCTA from "@/components/cart/cart-cta"
-import { ThemeProvider } from "@/components/theme-provider"
-import ThemeToggleButton from "@/components/theme-toggle-button"
-import TopNav from "@/components/top-nav"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { Link, Outlet } from "react-router"
+import { CartProvider } from '@/components/cart-provider'
+import ShoppingCartCTA from '@/components/cart/cart-cta'
+import { ThemeProvider } from '@/components/theme-provider'
+import ThemeToggleButton from '@/components/theme-toggle-button'
+import TopNav from '@/components/top-nav'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Link, Outlet } from 'react-router'
 
 const queryClient = new QueryClient()
 

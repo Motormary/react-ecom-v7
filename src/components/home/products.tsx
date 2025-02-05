@@ -5,18 +5,11 @@ import { RefreshCw, Star } from 'lucide-react'
 import { Link } from 'react-router'
 import ErrorBox from '../error'
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '../ui/tooltip'
 
 export default function ProductsList() {
   const { isPending, data, error, refetch } = useQuery({
     queryKey: ['products'],
     queryFn: db.products.getAll,
-    retry: false,
   })
 
   if (isPending)
@@ -42,7 +35,7 @@ export default function ProductsList() {
           if (index === 0) console.log(item.rating)
           console.log(item.rating)
           return (
-            <Card key={item.id} className="relative overflow-hidden group">
+            <Card key={item.id} className="relative overflow-hidden group hover:bg-muted/60 dark:hover:bg-muted/20">
               <Link
                 to={`/product/${item.id}`}
                 className="absolute inset-0 z-10 peer"
@@ -99,31 +92,21 @@ function RatingStars({ rating }: { rating: number }) {
           fill="url(#halfGradient)">
           <defs>
             <linearGradient id="halfGradient">
-              <stop offset="50%" stopColor="var(--color-amber-200)" />
+              <stop offset="50%" stopColor="var(--color-amber-300)" />
               <stop offset="50%" stopColor="var(--color-background)" />
             </linearGradient>
           </defs>
           <Star
             className={
-              rating !== 0 && i + 1 <= Math.ceil(rating) ? 'text-amber-200' : ''
+              rating !== 0 && i + 1 <= Math.ceil(rating) ? 'text-amber-400' : 'text-muted-foreground/50'
             }
             fill={getFill(i)}
           />
         </svg>
       ))}
-      <span className="hidden group-hover:inline-block">
+      <span className={cn(rating === 0 ? "hidden" : "hidden group-hover:inline-block text-xs my-auto")}>
         {rating.toFixed(1)}
       </span>
     </div>
   )
 }
-
-/* 
-        <Star
-          key={i}
-          className={cn(
-            i < Math.floor(rating) ? 'text-amber-200 fill-linear-[25deg,red_5%,yellow_60%,lime_90%,teal]' : '',
-            'size-4'
-          )}
-        />
-         */
