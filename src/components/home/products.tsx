@@ -1,14 +1,20 @@
-import { db } from "@/lib/database"
-import { cn } from "@/lib/utils"
-import { useQuery } from "@tanstack/react-query"
-import { RefreshCw, Star } from "lucide-react"
-import { Link } from "react-router"
-import ErrorBox from "../error"
-import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card"
+import { db } from '@/lib/database'
+import { cn } from '@/lib/utils'
+import { useQuery } from '@tanstack/react-query'
+import { RefreshCw, Star } from 'lucide-react'
+import { Link } from 'react-router'
+import ErrorBox from '../error'
+import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../ui/tooltip'
 
 export default function ProductsList() {
   const { isPending, data, error, refetch } = useQuery({
-    queryKey: ["products"],
+    queryKey: ['products'],
     queryFn: db.products.getAll,
     retry: false,
   })
@@ -36,10 +42,10 @@ export default function ProductsList() {
           if (index === 0) console.log(item.rating)
           console.log(item.rating)
           return (
-            <Card key={item.id} className="relative overflow-hidden">
+            <Card key={item.id} className="relative overflow-hidden group">
               <Link
                 to={`/product/${item.id}`}
-                className="absolute inset-0 z-10"
+                className="absolute inset-0 z-10 peer"
               />
               <div className="relative mx-auto overflow-hidden h-80 border-muted border-8 bg-muted">
                 <img
@@ -49,8 +55,8 @@ export default function ProductsList() {
                 />
                 <div
                   className={cn(
-                    index % 2 === 0 && "hidden",
-                    "absolute top-0 left-0 bg-green-600 rounded-md p-1 px-2 shadow-sm select-none"
+                    index % 2 === 0 && 'hidden',
+                    'absolute top-0 left-0 bg-green-600 rounded-md p-1 px-2 shadow-sm select-none'
                   )}>
                   <p className="text-white font-semibold drop-shadow-sm">
                     SALE
@@ -75,11 +81,11 @@ export default function ProductsList() {
 function RatingStars({ rating }: { rating: number }) {
   function getFill(index: number): string | undefined {
     const indexValue = index + 1
-    if (rating === 0) return "var(--color-background)"
-    if (indexValue <= rating) return "var(--color-amber-200)"
-    if (indexValue === Math.ceil(rating)) return "url(#halfGradient)"
+    if (rating === 0) return 'var(--color-background)'
+    if (indexValue <= rating) return 'var(--color-amber-200)'
+    if (indexValue === Math.ceil(rating)) return 'url(#halfGradient)'
 
-    return "var(--color-background)"
+    return 'var(--color-background)'
   }
 
   return (
@@ -99,13 +105,15 @@ function RatingStars({ rating }: { rating: number }) {
           </defs>
           <Star
             className={
-              rating !== 0 && i + 1 <= Math.ceil(rating) ? "text-amber-200" : ""
+              rating !== 0 && i + 1 <= Math.ceil(rating) ? 'text-amber-200' : ''
             }
             fill={getFill(i)}
           />
         </svg>
       ))}
-      {rating}
+      <span className="hidden group-hover:inline-block">
+        {rating.toFixed(1)}
+      </span>
     </div>
   )
 }
