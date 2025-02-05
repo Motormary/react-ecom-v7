@@ -65,15 +65,15 @@ export default function TopNav() {
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)}
             onKeyDown={handleBlur}
-            className="pl-10"
+            className="pl-9"
             autoComplete='off'
           />
           <label
             htmlFor="search"
-            className="absolute left-2 top-1/2 -translate-y-1/2">
+            className="absolute left-3 top-1/2 -translate-y-1/2">
             <Search
               aria-label="search-icon"
-              className=" text-muted-foreground"
+              className=" text-muted-foreground size-4"
             />
           </label>
           <ul className="group-[:not(:focus-within)]:hidden empty:hidden space-y-2 absolute bg-popover rounded-lg z-40 top-12 left-0 w-full h-fit border p-2 shadow-md">
