@@ -1,9 +1,10 @@
 import { db } from '@/lib/database'
 import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
-import { RefreshCw, Star } from 'lucide-react'
+import { RefreshCw } from 'lucide-react'
 import { Link } from 'react-router'
 import ErrorBox from '../error'
+import RatingStars from '../product/rating-stars'
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card'
 
 export default function ProductsList() {
@@ -35,7 +36,9 @@ export default function ProductsList() {
           if (index === 0) console.log(item.rating)
           console.log(item.rating)
           return (
-            <Card key={item.id} className="relative overflow-hidden group hover:bg-muted/60 dark:hover:bg-muted/20">
+            <Card
+              key={item.id}
+              className="relative overflow-hidden group hover:bg-muted/60 dark:hover:bg-muted/20">
               <Link
                 to={`/product/${item.id}`}
                 className="absolute inset-0 z-10 peer"
@@ -68,45 +71,5 @@ export default function ProductsList() {
         })}
       </div>
     </section>
-  )
-}
-
-function RatingStars({ rating }: { rating: number }) {
-  function getFill(index: number): string | undefined {
-    const indexValue = index + 1
-    if (rating === 0) return 'var(--color-background)'
-    if (indexValue <= rating) return 'var(--color-amber-200)'
-    if (indexValue === Math.ceil(rating)) return 'url(#halfGradient)'
-
-    return 'var(--color-background)'
-  }
-
-  return (
-    <div className="flex gap-1 my-2">
-      {Array.from({ length: 5 }, (_, i) => (
-        <svg
-          key={i + rating}
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="url(#halfGradient)">
-          <defs>
-            <linearGradient id="halfGradient">
-              <stop offset="50%" stopColor="var(--color-amber-300)" />
-              <stop offset="50%" stopColor="var(--color-background)" />
-            </linearGradient>
-          </defs>
-          <Star
-            className={
-              rating !== 0 && i + 1 <= Math.ceil(rating) ? 'text-amber-400' : 'text-muted-foreground/50'
-            }
-            fill={getFill(i)}
-          />
-        </svg>
-      ))}
-      <span className={cn(rating === 0 ? "hidden" : "hidden group-hover:inline-block text-xs my-auto")}>
-        {rating.toFixed(1)}
-      </span>
-    </div>
   )
 }

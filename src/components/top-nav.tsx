@@ -62,6 +62,7 @@ export default function TopNav() {
           <Input
             id="search"
             name="search"
+            placeholder='Search products'
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)}
             onKeyDown={handleBlur}

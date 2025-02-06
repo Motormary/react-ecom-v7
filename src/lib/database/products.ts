@@ -8,9 +8,9 @@ export class Products extends Database {
     })
   }
 
-  get = (id: string) => {
+  get = (product_id: string) => {
     return this.fetcher<TYPE_PRODUCTS>({
-      endPoint: `/${id}`,
+      endPoint: `/${product_id}`,
       method: 'GET',
     })
   }
