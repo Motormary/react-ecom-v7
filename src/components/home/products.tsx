@@ -1,24 +1,16 @@
 import { db } from '@/lib/database'
 import { cn } from '@/lib/utils'
-import { useQuery } from '@tanstack/react-query'
-import { RefreshCw } from 'lucide-react'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link } from 'react-router'
 import ErrorBox from '../error'
 import RatingStars from '../product/rating-stars'
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card'
 
 export default function ProductsList() {
-  const { isPending, data, error, refetch } = useQuery({
+  const { data, error, refetch } = useSuspenseQuery({
     queryKey: ['products'],
     queryFn: db.products.getAll,
   })
-
-  if (isPending)
-    return (
-      <div className="py-20 grid place-items-center">
-        <RefreshCw className="animate-spin size-10" />
-      </div>
-    )
 
   if (error) {
     const parsedError = (error?.message && JSON.parse(error.message)) ?? null

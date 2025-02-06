@@ -15,17 +15,10 @@ export default function TopNav() {
   const { cart } = useCart()
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [value, setValue] = useState<string>('')
-  const { isPending, data } = useQuery({
+  const { data, isError } = useQuery({
     queryKey: ['products'],
     queryFn: db.products.getAll,
   })
-
-  if (isPending)
-    return (
-      <div className="py-20 grid place-items-center">
-        <RefreshCw className="animate-spin size-10" />
-      </div>
-    )
 
   const filteredData = data?.data?.length
     ? data.data.filter(
@@ -60,14 +53,15 @@ export default function TopNav() {
         </nav>
         <div ref={containerRef} className="group relative sm:w-[30rem] mx-auto">
           <Input
+            disabled={isError}
             id="search"
             name="search"
-            placeholder='Search products'
+            placeholder={isError ? "Search has been temporarily disabled" : "Search products"}
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)}
             onKeyDown={handleBlur}
             className="pl-9"
-            autoComplete='off'
+            autoComplete="off"
           />
           <label
             htmlFor="search"
