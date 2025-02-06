@@ -33,8 +33,6 @@ export default function ProductsList() {
     <section>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-8">
         {data?.data.map((item, index) => {
-          if (index === 0) console.log(item.rating)
-          console.log(item.rating)
           return (
             <Card
               key={item.id}
