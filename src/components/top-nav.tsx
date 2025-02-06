@@ -41,12 +41,21 @@ export default function TopNav() {
           </Link>
           <ul className="flex items-center gap-8">
             <li>
-              <Link to="/cart" className="flex items-center gap-2">
-                <span className={cn(!cart?.length && 'hidden')}>
+              <Link to="/cart" className="relative flex items-center gap-2">
+                <span
+                  className={cn(
+                    !cart?.length && 'hidden',
+                    'text-sm text-muted-foreground'
+                  )}>
                   {/* There is no way to check if the item is on sale, so we use price */}
-                  {cart.reduce((acc, item) => acc + item.price, 0).toFixed(2)},-
+                  ${cart.reduce((acc, item) => acc + item.price, 0).toFixed(2)}
                 </span>
                 <ShoppingCart />
+                {!!cart?.length ? (
+                  <div className="absolute -top-3 -right-4 grid place-content-center bg-destructive text-white rounded-full p-1 max-h-5 min-w-5 z-10 text-sm">
+                    {cart.length ?? ''}
+                  </div>
+                ) : null}
               </Link>
             </li>
           </ul>
@@ -56,7 +65,11 @@ export default function TopNav() {
             disabled={isError}
             id="search"
             name="search"
-            placeholder={isError ? "Search has been temporarily disabled" : "Search products"}
+            placeholder={
+              isError
+                ? 'Search has been temporarily disabled'
+                : 'Search products'
+            }
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)}
             onKeyDown={handleBlur}
