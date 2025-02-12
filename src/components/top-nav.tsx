@@ -6,6 +6,8 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { useCart } from './cart-provider'
 import { Input } from './ui/input'
+import { Button } from './ui/button'
+import ErrorBox from './error'
 
 function handleBlur(event: React.KeyboardEvent<HTMLElement>) {
   if (event.key === 'Escape') event.currentTarget.blur()
@@ -15,7 +17,7 @@ export default function TopNav() {
   const { cart } = useCart()
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [value, setValue] = useState<string>('')
-  const { data, isError } = useQuery({
+  const { data, isError, error, refetch, isPending } = useQuery({
     queryKey: ['products'],
     queryFn: db.products.getAll,
   })
@@ -52,7 +54,7 @@ export default function TopNav() {
                 </span>
                 <ShoppingCart />
                 {!!cart?.length ? (
-                  <div className="absolute -top-3 -right-4 grid place-content-center bg-destructive text-white rounded-full p-1 max-h-5 min-w-5 z-10 text-sm">
+                  <div className="absolute -top-3 -right-3 grid place-content-center bg-destructive text-white rounded-full p-1 max-h-5 min-w-5 z-10 text-sm">
                     {cart.length ?? ''}
                   </div>
                 ) : null}
@@ -62,14 +64,10 @@ export default function TopNav() {
         </nav>
         <div ref={containerRef} className="group relative sm:w-[30rem] mx-auto">
           <Input
-            disabled={isError}
+            disabled={isPending}
             id="search"
             name="search"
-            placeholder={
-              isError
-                ? 'Search has been temporarily disabled'
-                : 'Search products'
-            }
+            placeholder="Search products"
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)}
             onKeyDown={handleBlur}
@@ -79,39 +77,57 @@ export default function TopNav() {
           <label
             htmlFor="search"
             className="absolute left-3 top-1/2 -translate-y-1/2">
-            <Search
-              aria-label="search-icon"
-              className=" text-muted-foreground size-4"
-            />
+            {isPending ? (
+              <RefreshCw className="animate-spin text-muted-foreground size-4" />
+            ) : (
+              <Search
+                aria-label="search-icon"
+                className=" text-muted-foreground size-4"
+              />
+            )}
           </label>
           <ul className="group-[:not(:focus-within)]:hidden empty:hidden space-y-2 absolute bg-popover rounded-lg z-40 top-12 left-0 w-full h-fit border p-2 shadow-md">
             {value?.length > 1 && filteredData?.length ? (
-              filteredData.map((item) => (
-                <li
-                  key={`${item.id}-Search`}
-                  className="relative grid grid-cols-[10%_50%_40%] gap-1 place-items-center overflow-hidden has-focus:bg-muted has-hover:bg-muted p-1 rounded-md">
-                  <Link
-                    to={`/product/${item.id}`}
-                    onClick={(e) => e.currentTarget.blur()}
-                    onKeyDown={handleBlur}
-                    className="peer absolute inset-0"></Link>
-                  <div className="overflow-hidden size-10">
-                    <img
-                      className="w-full h-full object-cover rounded-md border"
-                      src={item.image.url}
-                      alt={item.image.alt}
-                    />
-                  </div>
-                  <p className="w-full text-sm">{item.title}</p>
-                  <p
-                    title={item.price.toString()}
-                    className="truncate overflow-hidden pr-2 w-full text-right text-xs text-secondary-foreground/80">
-                    ${item.price}
-                  </p>
-                </li>
-              ))
-            ) : value?.length > 1 ? (
+              filteredData.map((item) => {
+                const isOnSale =
+                  item.price === item.discountedPrice ? false : true
+
+                return (
+                  <li
+                    key={`${item.id}-Search`}
+                    className="relative flex gap-2 items-center overflow-hidden has-focus:bg-muted has-hover:bg-muted p-1 rounded-md">
+                    <Link
+                      to={`/product/${item.id}`}
+                      onClick={(e) => e.currentTarget.blur()}
+                      onKeyDown={handleBlur}
+                      className="peer absolute inset-0"></Link>
+                    <div className="overflow-hidden size-10 min-w-10">
+                      <img
+                        className="w-full h-full object-cover rounded-md border"
+                        src={item.image.url}
+                        alt={item.image.alt}
+                      />
+                    </div>
+                    <div className="w-full flex max-sm:flex-col items-baseline gap-1">
+                      <p className="text-sm">{item.title}</p>
+                      {isOnSale ? (
+                        <span className="text-xs text-green-600 text-nowrap">
+                          ON SALE
+                        </span>
+                      ) : null}
+                    </div>
+                    <p
+                      title={item.discountedPrice.toString()}
+                      className="truncate overflow-hidden pr-2 w-fit text-right text-xs text-secondary-foreground/80 shrink-0">
+                      ${item.discountedPrice}
+                    </p>
+                  </li>
+                )
+              })
+            ) : value?.length > 1 && !isError ? (
               <small className="select-none">No results</small>
+            ) : value?.length > 1 && isError ? (
+              <ErrorBox refetch={refetch} error={error} />
             ) : null}
           </ul>
         </div>

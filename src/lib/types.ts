@@ -22,10 +22,10 @@ export type TYPE_PRODUCTS = {
   id: string
   title: string
   description: string
-  discountedPrice: number | null | undefined
+  discountedPrice: number
   image: {
     url: string
-    alt: string | undefined
+    alt: string
   }
   price: number
   rating: number

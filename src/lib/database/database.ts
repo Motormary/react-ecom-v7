@@ -26,7 +26,7 @@ export class Database {
     }
 
     const response = await fetch(
-      `${this.baseURL}${endPoint}`,
+      `${this.baseURL}${endPoint}2`,
       requestOptions
     )
 

@@ -2,29 +2,22 @@ import { db } from '@/lib/database'
 import { cn } from '@/lib/utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link } from 'react-router'
-import ErrorBox from '../error'
 import RatingStars from '../product/rating-stars'
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card'
 
 export default function ProductsList() {
-  const { data, error, refetch } = useSuspenseQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ['products'],
     queryFn: db.products.getAll,
+    retry: false, // TODO: remove all of these
   })
-
-  if (error) {
-    const parsedError = (error?.message && JSON.parse(error.message)) ?? null
-    return (
-      <div className="py-20 grid place-items-center gap-4">
-        <ErrorBox error={parsedError} refetch={refetch} />
-      </div>
-    )
-  }
 
   return (
     <section>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-8">
-        {data?.data.map((item, index) => {
+        {data?.data.map((item) => {
+          const isOnSale = item.price === item.discountedPrice ? false : true
+
           return (
             <Card
               key={item.id}
@@ -41,7 +34,7 @@ export default function ProductsList() {
                 />
                 <div
                   className={cn(
-                    index % 2 === 0 && 'hidden',
+                    !isOnSale && 'hidden',
                     'absolute top-0 left-0 bg-green-600 rounded-md p-1 px-2 shadow-sm select-none'
                   )}>
                   <p className="text-white font-semibold drop-shadow-sm">

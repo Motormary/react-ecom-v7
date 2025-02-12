@@ -46,6 +46,10 @@
   /* ------------- Animations -------------- */
 
   --animate-wiggle: wiggle 1.5s ease infinite;
+
+  /* ---------- screens ------------- */
+  --breakpoint-xs: 480px;
+  --breakpoint-2xs: 360px;
 }
 
 

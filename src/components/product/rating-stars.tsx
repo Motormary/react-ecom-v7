@@ -1,7 +1,17 @@
 import { cn } from '@/lib/utils'
 import { Star } from 'lucide-react'
 
-export default function RatingStars({ rating }: { rating: number }) {
+type ratingProps = {
+  rating: number
+  size?: string | number
+  visible?: boolean
+}
+
+export default function RatingStars({
+  rating,
+  size = 20,
+  visible,
+}: ratingProps) {
   function getFill(index: number): string | undefined {
     const indexValue = index + 1
     if (rating === 0) return 'var(--color-background)'
@@ -16,8 +26,8 @@ export default function RatingStars({ rating }: { rating: number }) {
       {Array.from({ length: 5 }, (_, i) => (
         <svg
           key={i + rating}
-          width="20"
-          height="20"
+          width={size}
+          height={size}
           viewBox="0 0 24 24"
           fill="url(#halfGradient)">
           <defs>
@@ -38,9 +48,8 @@ export default function RatingStars({ rating }: { rating: number }) {
       ))}
       <span
         className={cn(
-          rating === 0
-            ? 'hidden'
-            : 'hidden group-hover:inline-block text-xs my-auto'
+          rating === 0 ? 'hidden' : 'text-xs my-auto leading-0',
+          !visible && 'hidden group-hover:block'
         )}>
         {rating.toFixed(1)}
       </span>
