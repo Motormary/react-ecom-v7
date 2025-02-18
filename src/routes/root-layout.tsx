@@ -1,6 +1,7 @@
 import { CartProvider } from '@/components/cart-provider'
 import ShoppingCartCTA from '@/components/cart/cart-cta'
 import ErrorBox from '@/components/error'
+import ScrollToTop from '@/components/scroll-to-top'
 import { ThemeProvider } from '@/components/theme-provider'
 import ThemeToggleButton from '@/components/theme-toggle-button'
 import TopNav from '@/components/top-nav'
@@ -34,6 +35,7 @@ export default function RootLayout() {
                       </div>
                     )}>
                     <Outlet />
+                    <ScrollToTop />
                   </ErrorBoundary>
                 </main>
               </>

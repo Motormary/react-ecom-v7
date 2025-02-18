@@ -17,13 +17,13 @@ export default function Product() {
   const navigate = useNavigate()
   const { addItem } = useCart()
   const { product_id } = useParams()
-  const { data, error, refetch } = useSuspenseQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ['products', product_id],
     queryFn: () => db.products.get(product_id as string),
-    retry: false
+    retry: false, // todo: remove
   })
 
-  if (error) {
+  /*   if (error) {
     const parsedError = (error?.message && JSON.parse(error.message)) ?? null
     return (
       <div className="py-20 grid place-items-center gap-4">
@@ -31,14 +31,12 @@ export default function Product() {
       </div>
     )
   }
-
-  console.log("~~~~~~~~~~~~~~~~~ GOT THROUUUUGH 🚀")
-
+ */
   const isOnSale = data.data.price === data.data.discountedPrice ? false : true
 
   return (
     <>
-      <section className="border-b py-8">
+      <section className="border-b py-10">
         <div className="grid md:grid-cols-2 gap-8">
           <div className="relative aspect-square">
             <img
@@ -50,8 +48,10 @@ export default function Product() {
           <div>
             <h1 className="text-3xl font-bold mb-4">{data.data.title}</h1>
             <div className="flex gap-1 items-center mb-4">
-              <a href="#reviews" className={cn(!data.data.reviews?.length && "cursor-default")}>
-              <RatingStars rating={data.data.rating} />
+              <a
+                href="#reviews"
+                className={cn(!data.data.reviews?.length && 'cursor-default')}>
+                <RatingStars rating={data.data.rating} />
               </a>
               <span className="text-xs">
                 ({data.data.reviews.length} reviews)
@@ -110,7 +110,7 @@ export default function Product() {
         </div>
       </section>
 
-      <div className="flex max-lg:flex-col-reverse justify-between gap-6 py-4 sm:py-8">
+      <div className="flex max-lg:flex-col-reverse justify-between gap-10 py-4 sm:py-10">
         <OtherPosts product_id={product_id as string} />
         <div
           className={cn(
@@ -119,7 +119,9 @@ export default function Product() {
           )}
         />
         {data.data.reviews?.length ? (
-          <section id='reviews' className="flex flex-col gap-4 flex-1 max-lg:border-b">
+          <section
+            id="reviews"
+            className="flex flex-col gap-4 flex-1 max-lg:border-b">
             <h1 className="text-xl">Product reviews</h1>
             {data.data.reviews.map((rev, index) => {
               return (
@@ -149,9 +151,7 @@ function OtherPosts({ product_id }: { product_id: string }) {
   })
 
   if (isPending)
-    return (
-      <section className="flex-1 rounded-lg animate-pulse bg-muted/20" />
-    )
+    return <section className="flex-1 rounded-lg animate-pulse bg-muted/20" />
 
   if (error) {
     const parsedError = (error?.message && JSON.parse(error.message)) ?? null
