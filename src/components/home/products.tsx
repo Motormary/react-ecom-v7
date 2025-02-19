@@ -21,7 +21,7 @@ export default function ProductsList() {
           return (
             <Card
               key={item.id}
-              className="relative overflow-hidden group hover:bg-muted/60 dark:hover:bg-muted/20">
+              className="relative overflow-hidden group hover:bg-muted/60 dark:hover:bg-muted/20 focus-within:bg-muted/60 dark:focus-within:bg-muted/20 focus-within:ring ring-ring ring-offset-2 ring-offset-background">
               <Link
                 to={`/product/${item.id}`}
                 className="absolute inset-0 z-10 peer"

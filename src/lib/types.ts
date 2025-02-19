@@ -31,4 +31,7 @@ export type TYPE_PRODUCTS = {
   rating: number
   reviews: TYPE_PRODUCT_REVIEW[]
   tags: string[]
+  quantity: number
 }
+
+export type TYPE_CART = TYPE_PRODUCTS & { quantity: number }

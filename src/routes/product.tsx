@@ -15,7 +15,7 @@ import { Link, useNavigate, useParams } from 'react-router'
 
 export default function Product() {
   const navigate = useNavigate()
-  const { addItem } = useCart()
+  const { addItem, isItemInCart } = useCart()
   const { product_id } = useParams()
   const { data } = useSuspenseQuery({
     queryKey: ['products', product_id],
@@ -23,15 +23,6 @@ export default function Product() {
     retry: false, // todo: remove
   })
 
-  /*   if (error) {
-    const parsedError = (error?.message && JSON.parse(error.message)) ?? null
-    return (
-      <div className="py-20 grid place-items-center gap-4">
-        <ErrorBox error={parsedError} refetch={refetch} />
-      </div>
-    )
-  }
- */
   const isOnSale = data.data.price === data.data.discountedPrice ? false : true
 
   return (
@@ -90,7 +81,7 @@ export default function Product() {
             </div>
             <div className="grid gap-2">
               <Button className="w-full" onClick={() => addItem(data.data)}>
-                Add to cart
+                Add to Cart
               </Button>
               <div className="flex items-center gap-2">
                 <div className="border-b w-full" />
@@ -103,7 +94,7 @@ export default function Product() {
                   addItem(data.data)
                   navigate('/checkout')
                 }}>
-                Buy and checkout
+                Buy and Checkout
               </Button>
             </div>
           </div>

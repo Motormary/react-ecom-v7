@@ -5,16 +5,15 @@ import { RefreshCw, Search, ShoppingCart, Store } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { useCart } from './cart-provider'
-import { Input } from './ui/input'
-import { Button } from './ui/button'
 import ErrorBox from './error'
+import { Input } from './ui/input'
 
 function handleBlur(event: React.KeyboardEvent<HTMLElement>) {
   if (event.key === 'Escape') event.currentTarget.blur()
 }
 
 export default function TopNav() {
-  const { cart } = useCart()
+  const { cartPrice, cartQuantity } = useCart()
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [value, setValue] = useState<string>('')
   const { data, isError, error, refetch, isPending } = useQuery({
@@ -46,16 +45,15 @@ export default function TopNav() {
               <Link to="/cart" className="relative flex items-center gap-2">
                 <span
                   className={cn(
-                    !cart?.length && 'hidden',
+                    !cartQuantity() && 'hidden',
                     'text-sm text-muted-foreground'
                   )}>
-                  {/* There is no way to check if the item is on sale, so we use price */}
-                  ${cart.reduce((acc, item) => acc + item.price, 0).toFixed(2)}
+                  ${cartPrice()}
                 </span>
                 <ShoppingCart />
-                {!!cart?.length ? (
+                {!!cartQuantity() ? (
                   <div className="absolute -top-3 -right-3 grid place-content-center bg-destructive text-white rounded-full p-1 max-h-5 min-w-5 z-10 text-sm">
-                    {cart.length ?? ''}
+                    {cartQuantity() ?? ''}
                   </div>
                 ) : null}
               </Link>
