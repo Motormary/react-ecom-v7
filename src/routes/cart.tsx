@@ -28,7 +28,7 @@ const columns: ColumnDef<TYPE_CART>[] = [
       return (
         <div className="relative flex items-center gap-4 group">
           <Link
-            className="absolute inset-0 "
+            className="absolute inset-0 focus:outline-none z-10"
             to={`/product/${row.original.id}`}
           />
           <div className="relative size-16 overflow-hidden rounded-lg flex items-center group-focus-within:ring ring-ring ring-offset-2 ring-offset-background">
