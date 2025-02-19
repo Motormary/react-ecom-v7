@@ -1,5 +1,5 @@
 import { useCart } from '@/components/cart-provider'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -10,6 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { TYPE_CART } from '@/lib/types'
+import { cn } from '@/lib/utils'
 import {
   ColumnDef,
   flexRender,
@@ -129,14 +130,14 @@ const columns: ColumnDef<TYPE_CART>[] = [
 ]
 
 export default function Cart() {
-  const { cart } = useCart()
+  const { cart, cartPrice, cartQuantity } = useCart()
   const table = useReactTable({
     data: cart,
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
   return (
-    <>
+    <section className="space-y-8">
       <h1>Cart</h1>
       <div className="rounded-md border">
         <Table>
@@ -186,6 +187,21 @@ export default function Cart() {
           </TableBody>
         </Table>
       </div>
-    </>
+      <div className="flex justify-end">
+        <div className="text-end space-y-2">
+          <p className="text-muted-foreground">Total:</p>
+          <p>{cartPrice()}</p>
+          <button
+            disabled={!cart.length}
+            className="disabled:pointer-events-none disabled:select-none disabled:opacity-50">
+            <Link
+              className={cn(buttonVariants({ variant: 'default' }))}
+              to="/checkout">
+              Checkout
+            </Link>
+          </button>
+        </div>
+      </div>
+    </section>
   )
 }

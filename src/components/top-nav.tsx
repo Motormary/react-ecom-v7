@@ -48,7 +48,7 @@ export default function TopNav() {
                     !cartQuantity() && 'hidden',
                     'text-sm text-muted-foreground'
                   )}>
-                  ${cartPrice()}
+                  {cartPrice()}
                 </span>
                 <ShoppingCart />
                 {!!cartQuantity() ? (

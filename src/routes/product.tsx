@@ -15,9 +15,18 @@ import { Link, useNavigate, useParams } from 'react-router'
 import { AnimatePresence } from 'motion/react'
 import * as motion from 'motion/react-client'
 import { useState } from 'react'
+import { useViewTransition } from '@/lib/hooks/use-view-transition'
+import {
+  ArrowDownToDot,
+  ChevronsRight,
+  CirclePlus,
+  Plus,
+  SquarePlus,
+} from 'lucide-react'
 
 export default function Product() {
   const [isVisible, setIsVisible] = useState(true)
+  const [checkout, setCheckout] = useState(false)
   const navigate = useNavigate()
   const { addItem } = useCart()
   const { product_id } = useParams()
@@ -121,12 +130,41 @@ export default function Product() {
                 <div className="border-b w-full" />
               </div>
               <Button
+                className="overflow-hidden"
                 variant="secondary"
                 onClick={() => {
                   addItem(data.data)
-                  navigate('/checkout')
+                  setCheckout(true)
                 }}>
-                Buy and Checkout
+                <AnimatePresence>
+                  {!checkout ? (
+                    <motion.div
+                      className="[grid-area:stack] flex gap-1 items-center"
+                      exit={{
+                        opacity: 0,
+                        translateX: '300%',
+                        filter: 'blur(4px)',
+                      }}
+                      onAnimationComplete={() => {
+                        if (!document.startViewTransition) {
+                          // Fallback for unsupported browsers
+                          navigate('/checkout', {
+                            state: true,
+                          })
+                          return
+                        }
+
+                        document.startViewTransition(() => {
+                          navigate('/checkout', {
+                            state: true,
+                          })
+                        })
+                      }}
+                      key="success">
+                      Express Checkout <ChevronsRight />
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
               </Button>
             </div>
           </div>

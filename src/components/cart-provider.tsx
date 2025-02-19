@@ -1,4 +1,5 @@
 import { TYPE_PRODUCTS } from '@/lib/types'
+import { formatter } from '@/lib/utils'
 import { createContext, ReactNode, useContext, useState } from 'react'
 
 /**
@@ -83,6 +84,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  /**
+   * 
+   * @description Sets the quantity of an item
+   */
   function setQuantity(item_id: TYPE_PRODUCTS['id'], newQuantity: number) {
     const updatedCart = cart.map((x) =>
       x.id === item_id ? { ...x, quantity: newQuantity } : x
@@ -102,12 +107,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   /**
    *
-   * @returns The total of all the items in the cart
+   * @returns The total of all the items in the cart in US format
    */
   function cartPrice() {
-    return cart
-      .reduce((acc, item) => acc + item.discountedPrice * item.quantity, 0)
-      .toFixed(2)
+    const price = cart.reduce(
+      (acc, item) => acc + item.discountedPrice * item.quantity,
+      0
+    )
+
+    return formatter.format(price)
   }
 
   return (
