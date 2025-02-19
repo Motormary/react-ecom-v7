@@ -12,10 +12,14 @@ import { db } from '@/lib/database'
 import { cn } from '@/lib/utils'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { Link, useNavigate, useParams } from 'react-router'
+import { AnimatePresence } from 'motion/react'
+import * as motion from 'motion/react-client'
+import { useState } from 'react'
 
 export default function Product() {
+  const [isVisible, setIsVisible] = useState(true)
   const navigate = useNavigate()
-  const { addItem, isItemInCart } = useCart()
+  const { addItem } = useCart()
   const { product_id } = useParams()
   const { data } = useSuspenseQuery({
     queryKey: ['products', product_id],
@@ -25,6 +29,11 @@ export default function Product() {
 
   const isOnSale = data.data.price === data.data.discountedPrice ? false : true
 
+  function handleAddToCart() {
+    addItem(data.data)
+    setIsVisible(false)
+    setTimeout(() => setIsVisible(true), 2000)
+  }
   return (
     <>
       <section className="border-b py-10">
@@ -80,8 +89,31 @@ export default function Product() {
               </div>
             </div>
             <div className="grid gap-2">
-              <Button className="w-full" onClick={() => addItem(data.data)}>
-                Add to Cart
+              <Button
+                disabled={!isVisible}
+                className="w-full grid [grid-template-areas:'stack'] disabled:opacity-100 place-items-center after:absolute after:size-full active:after:inset-ring-4 after:inset-ring-white/20  after:transition-all after:blur-xs relative overflow-hidden select-none"
+                onClick={handleAddToCart}>
+                <AnimatePresence initial={false}>
+                  {isVisible ? (
+                    <motion.div
+                      className="[grid-area:stack]"
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0 }}
+                      key="Add">
+                      Add to Cart
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      className="[grid-area:stack]"
+                      initial={{ opacity: 0, scale: 0, visibility: 'hidden' }}
+                      animate={{ opacity: 1, scale: 1, visibility: 'visible' }}
+                      exit={{ opacity: 0, scale: 0 }}
+                      key="success">
+                      Added!
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </Button>
               <div className="flex items-center gap-2">
                 <div className="border-b w-full" />
