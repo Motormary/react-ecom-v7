@@ -9,7 +9,7 @@ export default function CheckoutSuccess() {
 
   useEffect(() => {
     emptyCart()
-  }, [])
+  }, [emptyCart])
   return (
     <div className="grid place-items-center gap-8 m-auto">
       <h1>Checkout Success!</h1>

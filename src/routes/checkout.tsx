@@ -17,7 +17,7 @@ export default function Checkout() {
 
   useEffect(() => {
     if (cartQuantity() <= 0) navigate('/')
-  }, [])
+  }, [navigate, cartQuantity])
 
   return (
     <AnimatePresence initial={state}>
