@@ -28,6 +28,8 @@ export function disableTransition() {
   const root = document.documentElement;
   root.classList.add('[&_*]:transition-none');
 
+  //! Don't edit.
+  //? Makes sure we wait for the second frame to safely remove the transition-none class.
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       root.classList.remove('[&_*]:transition-none');

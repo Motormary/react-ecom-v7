@@ -2,7 +2,7 @@ import { db } from '@/lib/database'
 import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
 import { RefreshCw, Search, ShoppingCart, Store } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router'
 import { useCart } from './cart-provider'
 import ErrorBox from './error'
@@ -14,20 +14,20 @@ function handleBlur(event: React.KeyboardEvent<HTMLElement>) {
 
 export default function TopNav() {
   const { cartPrice, cartQuantity } = useCart()
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const [value, setValue] = useState<string>('')
+  const [searchValue, setSearchValue] = useState<string>('')
   const { data, isError, error, refetch, isPending } = useQuery({
     queryKey: ['products'],
     queryFn: db.products.getAll,
   })
 
+  // Filters data cache instead of database, if no cache => get. Not really a problem as we've got 25 items listed. Not scalable.
   const filteredData = data?.data?.length
     ? data.data.filter(
         (item) =>
-          item.title.toLowerCase().includes(value?.toLowerCase()) ||
-          item.description.toLowerCase().includes(value?.toLowerCase()) ||
+          item.title.toLowerCase().includes(searchValue?.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchValue?.toLowerCase()) ||
           item.tags.some((tag) =>
-            tag.toLowerCase().includes(value?.toLowerCase())
+            tag.toLowerCase().includes(searchValue?.toLowerCase())
           )
       )
     : null
@@ -62,21 +62,21 @@ export default function TopNav() {
                 />
                 {!!cartQuantity() ? (
                   <div className="absolute -top-3 -right-3 grid place-content-center bg-destructive text-white rounded-full p-1 max-h-5 min-w-5 z-10 text-sm">
-                    {cartQuantity() ?? ''}
+                    {cartQuantity()}
                   </div>
                 ) : null}
               </Link>
             </li>
           </ul>
         </nav>
-        <div ref={containerRef} className="group relative sm:w-[30rem] mx-auto">
+        <div className="group relative sm:w-[30rem] mx-auto">
           <Input
             disabled={isPending}
             id="search"
             name="search"
             placeholder="Search products"
-            value={value}
-            onChange={(e) => setValue(e.currentTarget.value)}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.currentTarget.value)}
             onKeyDown={handleBlur}
             className="pl-9"
             autoComplete="off"
@@ -96,7 +96,7 @@ export default function TopNav() {
           <ul
             className="group-[:not(:focus-within)]:hidden empty:hidden space-y-2 absolute bg-popover rounded-lg z-40 top-12 left-0 w-full h-fit border p-2 shadow-md max-h-96 overflow-y-auto"
             style={{ scrollbarWidth: 'thin' }}>
-            {value?.length > 1 && filteredData?.length ? (
+            {searchValue?.length > 1 && filteredData?.length ? (
               filteredData.map((item) => {
                 const isOnSale =
                   item.price === item.discountedPrice ? false : true
@@ -134,9 +134,9 @@ export default function TopNav() {
                   </li>
                 )
               })
-            ) : value?.length > 1 && !isError ? (
+            ) : searchValue?.length > 1 && !isError ? (
               <small className="select-none">No results</small>
-            ) : value?.length > 1 && isError ? (
+            ) : searchValue?.length > 1 && isError ? (
               <ErrorBox refetch={refetch} error={error} />
             ) : null}
           </ul>
