@@ -11,18 +11,13 @@ import {
 import { db } from '@/lib/database'
 import { cn } from '@/lib/utils'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { Link, useNavigate, useParams } from 'react-router'
+import {
+  ChevronsRight
+} from 'lucide-react'
 import { AnimatePresence } from 'motion/react'
 import * as motion from 'motion/react-client'
 import { useState } from 'react'
-import { useViewTransition } from '@/lib/hooks/use-view-transition'
-import {
-  ArrowDownToDot,
-  ChevronsRight,
-  CirclePlus,
-  Plus,
-  SquarePlus,
-} from 'lucide-react'
+import { Link, useNavigate, useParams } from 'react-router'
 
 export default function Product() {
   const [isVisible, setIsVisible] = useState(true)

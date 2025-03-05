@@ -1,5 +1,5 @@
 import { useCart } from '@/components/cart-provider'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useEffect } from 'react'
 import { Link } from 'react-router'
