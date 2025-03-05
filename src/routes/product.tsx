@@ -124,7 +124,7 @@ export default function Product() {
                   )}
                 </AnimatePresence>
               </Button>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 select-none">
                 <div className="border-b w-full" />
                 <p className="text-muted-foreground">or</p>
                 <div className="border-b w-full" />

@@ -26,7 +26,7 @@ export default function RootLayout() {
                 <header>
                   <TopNav />
                 </header>
-                <main className="container mx-auto px-5 md:px-10 py-4 md:py-10">
+                <main className="container mx-auto px-5 md:px-10 py-4 md:py-10 flex flex-col">
                   <ErrorBoundary
                     onReset={reset}
                     fallbackRender={({ resetErrorBoundary, error }) => (

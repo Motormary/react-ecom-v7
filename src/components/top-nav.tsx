@@ -50,7 +50,10 @@ export default function TopNav() {
                   )}>
                   {cartPrice()}
                 </span>
-                <ShoppingCart />
+                <ShoppingCart
+                  aria-label="shopping-cart icon"
+                  className="fill-primary/30"
+                />
                 {!!cartQuantity() ? (
                   <div className="absolute -top-3 -right-3 grid place-content-center bg-destructive text-white rounded-full p-1 max-h-5 min-w-5 z-10 text-sm">
                     {cartQuantity() ?? ''}

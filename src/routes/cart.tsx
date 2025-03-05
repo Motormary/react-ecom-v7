@@ -1,6 +1,5 @@
 import { useCart } from '@/components/cart-provider'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -130,7 +129,7 @@ const columns: ColumnDef<TYPE_CART>[] = [
 ]
 
 export default function Cart() {
-  const { cart, cartPrice, cartQuantity } = useCart()
+  const { cart, cartPrice } = useCart()
   const table = useReactTable({
     data: cart,
     columns,
