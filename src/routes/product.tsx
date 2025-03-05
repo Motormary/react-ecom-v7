@@ -28,7 +28,6 @@ export default function Product() {
   const { data } = useSuspenseQuery({
     queryKey: ['products', product_id],
     queryFn: () => db.products.get(product_id as string),
-    retry: false, // todo: remove
   })
 
   const isOnSale = data.data.price === data.data.discountedPrice ? false : true

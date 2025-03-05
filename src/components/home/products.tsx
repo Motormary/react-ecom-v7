@@ -9,7 +9,6 @@ export default function ProductsList() {
   const { data } = useSuspenseQuery({
     queryKey: ['products'],
     queryFn: db.products.getAll,
-    retry: false, // TODO: remove all of these
   })
 
   return (
