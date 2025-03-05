@@ -93,7 +93,9 @@ export default function TopNav() {
               />
             )}
           </label>
-          <ul className="group-[:not(:focus-within)]:hidden empty:hidden space-y-2 absolute bg-popover rounded-lg z-40 top-12 left-0 w-full h-fit border p-2 shadow-md">
+          <ul
+            className="group-[:not(:focus-within)]:hidden empty:hidden space-y-2 absolute bg-popover rounded-lg z-40 top-12 left-0 w-full h-fit border p-2 shadow-md max-h-96 overflow-y-auto"
+            style={{ scrollbarWidth: 'thin' }}>
             {value?.length > 1 && filteredData?.length ? (
               filteredData.map((item) => {
                 const isOnSale =
