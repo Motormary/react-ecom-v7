@@ -28,6 +28,7 @@ const columns: ColumnDef<TYPE_CART>[] = [
       return (
         <div className="relative flex items-center gap-4 group">
           <Link
+            draggable={false}
             className="absolute inset-0 focus:outline-none z-10"
             to={`/product/${row.original.id}`}
           />
@@ -194,6 +195,7 @@ export default function Cart() {
             disabled={!cart.length}
             className="disabled:pointer-events-none disabled:select-none disabled:opacity-50">
             <Link
+              draggable={false}
               className={cn(buttonVariants({ variant: 'default' }))}
               to="/checkout">
               Checkout

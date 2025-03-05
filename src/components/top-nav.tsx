@@ -36,13 +36,19 @@ export default function TopNav() {
     <div className="nav flex justify-center pt-4">
       <div className="container px-5 md:px-10">
         <nav className="max-h-16 flex justify-between items-center py-4">
-          <Link to="/" className="flex items-center gap-4 p-1">
+          <Link
+            draggable={false}
+            to="/"
+            className="flex items-center gap-4 p-1">
             <Store className="inline-block" />
             <span className="font-semibold">E-COM.COM</span>
           </Link>
           <ul className="flex items-center gap-8">
             <li>
-              <Link to="/cart" className="relative flex items-center gap-2">
+              <Link
+                draggable={false}
+                to="/cart"
+                className="relative flex items-center gap-2">
                 <span
                   className={cn(
                     !cartQuantity() && 'hidden',
@@ -98,6 +104,7 @@ export default function TopNav() {
                     key={`${item.id}-Search`}
                     className="relative flex gap-2 items-center overflow-hidden has-focus:bg-muted has-hover:bg-muted p-1 rounded-md">
                     <Link
+                      draggable={false}
                       to={`/product/${item.id}`}
                       onClick={(e) => e.currentTarget.blur()}
                       onKeyDown={handleBlur}

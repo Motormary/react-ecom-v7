@@ -11,9 +11,7 @@ import {
 import { db } from '@/lib/database'
 import { cn } from '@/lib/utils'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import {
-  ChevronsRight
-} from 'lucide-react'
+import { ChevronsRight } from 'lucide-react'
 import { AnimatePresence } from 'motion/react'
 import * as motion from 'motion/react-client'
 import { useState } from 'react'
@@ -43,6 +41,7 @@ export default function Product() {
         <div className="grid md:grid-cols-2 gap-8">
           <div className="relative aspect-square">
             <img
+              draggable={false}
               src={data.data.image.url || '/placeholder.svg'}
               alt={data.data.image.alt || data.data.title}
               className="object-cover rounded-lg w-full h-full"
@@ -52,6 +51,7 @@ export default function Product() {
             <h1 className="text-3xl font-bold mb-4">{data.data.title}</h1>
             <div className="flex gap-1 items-center mb-4">
               <a
+                draggable={false}
                 href="#reviews"
                 className={cn(!data.data.reviews?.length && 'cursor-default')}>
                 <RatingStars rating={data.data.rating} />
@@ -237,6 +237,7 @@ function OtherPosts({ product_id }: { product_id: string }) {
                 key={item.id}
                 className="relative overflow-hidden group hover:bg-muted/60 dark:hover:bg-muted/20">
                 <Link
+                  draggable={false}
                   to={`/product/${item.id}`}
                   className="absolute inset-0 z-10 peer"
                 />
