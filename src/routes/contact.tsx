@@ -12,10 +12,12 @@ export default function Contact() {
     setIsPending(true)
   }
   return (
-    <div className="space-y-10">
+    <fieldset className="space-y-4 pb-10 pt-4 px-6 md:p-10 md:pb-16 sm:border rounded-lg">
+      <legend className='px-2 text-center max-sm:w-full sm:border-none rounded-lg'> 
+        <h1>Contact Form</h1>
+      </legend>
       <div>
-        <h1 className="text-center">Contact</h1>
-        <h2 className="text-lg font-normal text-center">
+        <h2 className="text-base font-normal text-center">
           Please fill out the form below and we'll get back to you as soon as
           possible
         </h2>
@@ -42,7 +44,7 @@ export default function Contact() {
             required
             name="body"
             minLength={3}
-            className="rounded-md p-2 border"
+            className="rounded-md p-2 border w-full flex"
           />
         </div>
         <Button type="submit">
@@ -73,6 +75,6 @@ export default function Contact() {
           </AnimatePresence>
         </Button>
       </form>
-    </div>
+    </fieldset>
   )
 }
