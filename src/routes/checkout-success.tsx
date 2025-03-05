@@ -2,14 +2,15 @@ import { useCart } from '@/components/cart-provider'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useEffect } from 'react'
-import { Link, redirect } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 
 export default function CheckoutSuccess() {
   const { emptyCart, cartQuantity } = useCart()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    if (cartQuantity() <= 0) redirect('/')
-    emptyCart()
+    if (cartQuantity() <= 0) navigate('/')
+    else emptyCart()
   }, [])
   return (
     <div className="grid place-items-center gap-8 m-auto">

@@ -5,7 +5,7 @@ import { cn, formatter } from '@/lib/utils'
 import { Check, DollarSign, IdCardIcon, Loader2, PiggyBank } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { ReactNode, useEffect, useState } from 'react'
-import { redirect, useLocation, useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
 export default function Checkout() {
   const { cart, cartPrice, cartQuantity } = useCart()
@@ -15,7 +15,7 @@ export default function Checkout() {
   const { state } = useLocation()
 
   useEffect(() => {
-    if (cartQuantity() <= 0) redirect('/')
+    if (cartQuantity() <= 0) navigate('/')
   }, [])
 
   return (
