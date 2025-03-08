@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { AnimatePresence, motion } from 'motion/react'
-import { FormEvent, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 export default function Contact() {
   const [isPending, setIsPending] = useState(false)
