@@ -7,13 +7,14 @@ export default function Contact() {
   const [isPending, setIsPending] = useState(false)
   const formRef = useRef<HTMLFormElement | null>(null)
 
-  function onSubmit(e: FormEvent) {
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    console.table([...new FormData(e.currentTarget)])
     e.preventDefault()
     setIsPending(true)
   }
   return (
     <fieldset className="space-y-4 pb-10 pt-4 px-6 md:p-10 md:pb-16 sm:border rounded-lg">
-      <legend className='px-2 text-center max-sm:w-full sm:border-none rounded-lg'> 
+      <legend className="px-2 text-center max-sm:w-full sm:border-none rounded-lg">
         <h1>Contact Form</h1>
       </legend>
       <div>

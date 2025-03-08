@@ -22,13 +22,8 @@ export default function TopNav() {
 
   // Filters data cache instead of database, if no cache => get. Not really a problem as we've got 25 items listed. Not scalable.
   const filteredData = data?.data?.length
-    ? data.data.filter(
-        (item) =>
-          item.title.toLowerCase().includes(searchValue?.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchValue?.toLowerCase()) ||
-          item.tags.some((tag) =>
-            tag.toLowerCase().includes(searchValue?.toLowerCase())
-          )
+    ? data.data.filter((item) =>
+        item.title.toLowerCase().includes(searchValue?.toLowerCase())
       )
     : null
 
