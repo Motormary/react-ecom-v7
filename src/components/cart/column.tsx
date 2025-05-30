@@ -1,12 +1,8 @@
 import { TYPE_CART } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { Link } from 'react-router'
-import { useCart } from '../cart-provider'
-import { useState } from 'react'
-import { Button } from '../ui/button'
-import { X } from 'lucide-react'
-import Quantity from './quantity-cell'
 import Action from './action-column'
+import Quantity from './quantity-cell'
 
 export const columns: ColumnDef<TYPE_CART>[] = [
   {
