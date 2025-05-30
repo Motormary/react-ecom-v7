@@ -7,7 +7,7 @@ export default function ProductListSkeleton() {
       {Array.from({ length: 15 }).map((_, index) => {
         return (
           <Card key={index} className="relative overflow-hidden">
-            <div className="relative mx-auto overflow-hidden h-80 border-muted border-8 bg-muted animate-pulse"></div>
+            <div className="relative mx-auto overflow-hidden h-80 border-muted border-8 bg-muted animate-pulse"/>
             <CardHeader>
               <CardTitle className="text-background">Title</CardTitle>
               <CardDescription>

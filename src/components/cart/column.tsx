@@ -5,6 +5,8 @@ import { useCart } from '../cart-provider'
 import { useState } from 'react'
 import { Button } from '../ui/button'
 import { X } from 'lucide-react'
+import Quantity from './quantity-cell'
+import Action from './action-column'
 
 export const columns: ColumnDef<TYPE_CART>[] = [
   {
@@ -36,69 +38,9 @@ export const columns: ColumnDef<TYPE_CART>[] = [
   {
     accessorKey: 'quantity',
     header: () => <p>Quantity</p>,
-    cell: ({ row }) => {
-      const { setQuantity } = useCart()
-      const [val, setVal] = useState(row.original.quantity)
-
-      /**
-       * Checks if quantity input is a number value that is greater than -1.
-       */
-      function handleOnChange(event: React.ChangeEvent<HTMLInputElement>) {
-        if (Number(event.target.value) > -1) {
-          setVal(Number(event.target.value))
-        }
-      }
-
-      /**
-       * Makes sure value is greater than 0 on blur else it will revert to original value before saving value to cart context.
-       */
-      function handleOnBlur(event: React.FocusEvent<HTMLInputElement>) {
-        if (Number(event.target.value) > 0) {
-          setQuantity(
-            row.original.id,
-            Number(event.target.value) > 0 ? Number(event.target.value) : 1
-          )
-          setVal(
-            Number(event.target.value) > 0 ? Number(event.target.value) : 1
-          )
-        } else {
-          setQuantity(row.original.id, row.original.quantity)
-          setVal(row.original.quantity)
-        }
-      }
-
-      return (
-        <div className="flex items-center justify-evenly gap-1 bg-muted rounded-full border shadow-sm overflow-hidden select-none max-md:min-w-36">
-          <button
-            aria-label="Decrement quantity"
-            disabled={row.original.quantity === 1}
-            onClick={() => {
-              setQuantity(row.original.id, row.original.quantity - 1)
-              setVal(row.original.quantity - 1)
-            }}
-            className="focus-visible:bg-muted-foreground/20 hover:bg-muted-foreground/20 active:bg-muted-foreground/10 flex-1 outline-none cursor-pointer disabled:pointer-events-none disabled:opacity-50">
-            -
-          </button>
-          <input
-            min={1}
-            value={val}
-            onChange={handleOnChange}
-            onBlur={handleOnBlur}
-            onKeyDown={(e) => e.key === 'Enter' ? e.currentTarget.blur() : null}
-            className="text-center flex-1 max-w-12 outline-none"
-          />
-          <button
-            aria-label="Increment quantity"
-            onClick={() => {
-              setQuantity(row.original.id, row.original.quantity + 1)
-              setVal(row.original.quantity + 1)
-            }}
-            className="focus-visible:bg-muted-foreground/20 hover:bg-muted-foreground/20 active:bg-muted-foreground/10 flex-1 outline-none cursor-pointer disabled:pointer-events-none disabled:opacity-50">
-            +
-          </button>
-        </div>
-      )
-    },
+    cell: ({ row }) => (
+      <Quantity id={row.original.id} quantity={row.original.quantity} />
+    ),
   },
   {
     accessorKey: 'discountedPrice',
@@ -111,20 +53,6 @@ export const columns: ColumnDef<TYPE_CART>[] = [
   },
   {
     header: 'Action',
-    cell: ({ row }) => {
-      const { removeItem } = useCart()
-      return (
-        <div className="flex items-center">
-          <Button
-            title="Remove item"
-            size="icon"
-            variant="ghost"
-            onClick={() => removeItem(row.original.id)}
-            className="mx-auto">
-            <X />
-          </Button>
-        </div>
-      )
-    },
+    cell: ({ row }) => <Action id={row.original.id} />,
   },
 ]
